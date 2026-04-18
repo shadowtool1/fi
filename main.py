@@ -3,16 +3,17 @@ import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
 from config import TOKEN
-from handlers import start_handler, contact_handler, reg_handler
+from handlers import start_handler, contact_handler, reg_handler, stop_handler
 
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
-# Регистрация хендлеров ПРАВИЛЬНО
+# Регистрация хендлеров
 dp.register_message_handler(start_handler, commands=["start"])
 dp.register_message_handler(reg_handler, commands=["reg"])
+dp.register_message_handler(stop_handler, commands=["stop"])
 dp.register_message_handler(contact_handler, content_types=types.ContentType.CONTACT)
 
 async def on_startup(dp):
