@@ -2,16 +2,15 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
-from config import TOKEN, API_ID, API_HASH
-from handlers import (
-    start_handler, contact_handler, reg_handler
-)
+from config import TOKEN
+from handlers import start_handler, contact_handler, reg_handler
 
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
+# Регистрация хендлеров ПРАВИЛЬНО
 dp.register_message_handler(start_handler, commands=["start"])
 dp.register_message_handler(reg_handler, commands=["reg"])
 dp.register_message_handler(contact_handler, content_types=types.ContentType.CONTACT)
