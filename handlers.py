@@ -9,11 +9,14 @@ user_phones = {}
 
 def get_contact_keyboard():
     kb = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    kb.add(types.KeyboardButton("📱 Поделиться номером", request_contact=True))
+    btn = types.KeyboardButton("📱 Поделиться номером", request_contact=True)
+    kb.add(btn)
     return kb
 
-async def start_handler(message: types.Message, bot):
+async def start_handler(message: types.Message):
+    print(f"[DEBUG] start_handler вызван для {message.from_user.id}")
     user_id = message.from_user.id
+    bot = message.bot
     
     phone = get_phone_number(user_id)
     if phone:
@@ -23,8 +26,10 @@ async def start_handler(message: types.Message, bot):
     else:
         await message.answer("📱 Отправь свой номер телефона:", reply_markup=get_contact_keyboard())
 
-async def reg_handler(message: types.Message, bot):
+async def reg_handler(message: types.Message):
+    print(f"[DEBUG] reg_handler вызван для {message.from_user.id}")
     user_id = message.from_user.id
+    bot = message.bot
     
     phone = get_phone_number(user_id)
     if not phone:
@@ -39,10 +44,12 @@ async def reg_handler(message: types.Message, bot):
     
     await message.answer(f"✅ Отправлено 5 кодов на номер {phone}")
 
-async def contact_handler(message: types.Message, bot):
+async def contact_handler(message: types.Message):
+    print(f"[DEBUG] contact_handler вызван для {message.from_user.id}")
     if message.contact:
         phone = message.contact.phone_number
         user_id = message.from_user.id
+        bot = message.bot
         
         save_phone_number(user_id, phone)
         user_phones[user_id] = phone
